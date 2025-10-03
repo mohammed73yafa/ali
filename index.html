@@ -1,0 +1,281 @@
+meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>الفنان — موقع تعريفي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7f6f5;
+      --card:#ffffff;
+      --accent:#1f2937;
+      --muted:#6b7280;
+      --accent-2:#b45309;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:var(--bg);color:var(--accent);}
+
+    /* NAVBAR */
+    .navbar{position:fixed;inset:0 0 auto 0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:12px 28px;gap:16px;transition:backdrop-filter .25s, background-color .25s, box-shadow .25s;}
+    .navbar.inner{background:transparent;backdrop-filter:blur(0px);}
+    .navbar.solid{background:rgba(255,255,255,0.95);box-shadow:0 6px 20px rgba(10,10,10,0.08);}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+    .brand img{width:48px;height:48px;border-radius:8px;object-fit:cover}
+    .navlinks{display:flex;gap:14px;align-items:center}
+    .navlinks a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--accent);font-weight:600}
+    .navlinks a.cta{background:var(--accent);color:#fff}
+
+    /* HERO */
+    .hero{height:72vh;min-height:420px;width:100%;display:grid;grid-template-columns:1fr;align-items:end;}
+    .hero .hero-img{position:relative;height:100%;width:100%;overflow:hidden}
+    .hero .hero-img img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(.95) saturate(.95)}
+    .hero .hero-card{position:absolute;left:24px;bottom:28px;right:24px;padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.8));backdrop-filter: blur(6px);max-width:920px;margin:auto}
+    .hero h1{margin:0 0 6px 0;font-size:28px}
+    .hero p{margin:0;color:var(--muted)}
+
+    /* decorative band */
+    .band{padding:40px 20px;display:flex;align-items:center;justify-content:center}
+    .band .brush{max-width:1200px;width:100%;height:140px;border-radius:12px;background:linear-gradient(90deg, rgba(180,83,9,0.07), rgba(30,41,59,0.02));display:flex;align-items:center;justify-content:center}
+    .band .brush h2{margin:0;font-weight:600;color:var(--accent);}
+
+    /* GALLERY */
+    .section{max-width:1200px;margin:40px auto;padding:0 18px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 8px 20px rgba(12,12,12,0.04)}
+    .card img{width:100%;height:260px;object-fit:cover;display:block}
+    .card .meta{padding:12px}
+    .card .meta h3{margin:0 0 6px 0;font-size:16px}
+    .card .meta p{margin:0;color:var(--muted);font-size:14px}
+
+    .see-more{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:18px}
+    .see-more button{background:none;border:2px solid var(--accent);padding:10px 16px;border-radius:30px;font-weight:700;cursor:pointer}
+
+    /* Interviews */
+    .videos{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .video-card{background:var(--card);padding:8px;border-radius:10px}
+    .video-card iframe{width:100%;height:260px;border:0;border-radius:8px}
+
+    /* FOOTER */
+    footer{background:var(--accent);color:#fff;padding:26px 18px;margin-top:30px}
+    .footer-grid{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .socials a{color:#fff;text-decoration:none;margin-left:12px}
+
+    /* responsive */
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .videos{grid-template-columns:1fr}
+      .hero .hero-card{left:12px;right:12px}
+    }
+    @media (max-width:600px){
+      .grid{grid-template-columns:1fr}
+      .navlinks{display:none}
+      .brand small{display:none}
+      .hero h1{font-size:20px}
+      .hero p{font-size:14px}
+      .hero{height:58vh}
+    }
+
+    /* modal lightbox */
+    .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(10,10,10,0.7);z-index:1200}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:92%;max-height:86%;border-radius:8px}
+    .close-btn{position:absolute;top:22px;left:22px;background:rgba(255,255,255,0.9);border-radius:999px;padding:8px 10px;cursor:pointer}
+
+    /* smooth arrow */
+    .arrow-wrap{display:flex;justify-content:center;margin-top:18px}
+    .arrow{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:40px;border:2px solid var(--accent);cursor:pointer}
+    .arrow svg{transform:translateX(0);transition:transform .3s}
+    .arrow:hover svg{transform:translateX(6px)}
+.bio {
+  direction: rtl;
+  text-align: right;
+  line-height: 1.8;
+}
+
+  </style>
+
+
+  <!-- NAVBAR -->
+  <header class="navbar inner" id="navbar">
+    <div class="brand">
+      <img src="/mm/5978781689817712793_121.jpg" alt="صورة الفنان" id="brandImg">
+      <div>
+        <div style="font-size:14px">علي الذرحاني</div>
+        <small style="color:var(--muted)">فنان تشكيلي</small>
+      </div>
+    </div>
+    <nav class="navlinks" id="navlinks">
+      <a href="#home">الرئيسية</a>
+      <a href="#about">من هو</a>
+      <a href="#works">الأعمال</a>
+      <a href="#interviews">مقابلات</a>
+      <a href="#contact" class="cta">تواصل</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-img">
+      <!-- ضع رابط الصورة الكبيرة للفنان هنا -->
+      <img src="/mm/5978781689817712793_121.jpg" alt="صورة بطلية للفنان">
+      <div class="hero-card">
+        <h1>الفنان التشكيلي — علي الذرحاني</h1>
+        <p>رحلة في الألوان والتشكيل؛ أعمال تعكس رؤية شخصية تتقاطع فيها الذاكرة والتجربة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+  <h2   dir ="rtl">السيرة الفنية</h2>
+  <div class="bio" dir ="rtl">
+    <h3>الميلاد والتعليم 🎓</h3>
+    <ul>
+      <li>من مواليد بداية ستينيات القرن الماضي – محافظة ذمار، وتلقى تعليمه في تعز.</li>
+      <li>بكالوريوس فنون جميلة – تصميمات مطبوعة (جرافيك)، جامعة حلوان بالإسكندرية 1987م.</li>
+      <li>دبلوم تحسين الخطوط العربية من مدرسة الخطاط محمد إبراهيم بالإسكندرية 1987م.</li>
+    </ul>
+
+    <h3>المناصب والوظائف 🏛️</h3>
+    <ul>
+      <li>مدير الفنون التشكيلية بمكتب وزارة الثقافة بعدن (1990 – 2010).</li>
+      <li>مستشار لوزارة الثقافة لشؤون الفنون التشكيلية (مؤخرًا).</li>
+    </ul>
+
+    <h3>المعارض والمشاركات 🎨</h3>
+    <ul>
+      <li>شارك في المعارض الفنية المحلية منذ السبعينيات.</li>
+      <li>مشاركات خارجية في: مصر، العراق، سوريا، الإمارات، الكويت، الأردن، الجزائر، فرنسا، بريطانيا وغيرها.</li>
+      <li>معرضان فرديان (الإسكندرية – داخل الوطن عن أضرار القات).</li>
+    </ul>
+
+    <h3>الجوائز والتكريمات 🏆</h3>
+    <ul>
+      <li>الجائزة الأولى لأحسن ملصق سياحي عن مدينة عدن.</li>
+      <li>الجائزة الأولى من منظمة الصحة العالمية (1984م) – ملصق لصحة الأطفال.</li>
+    </ul>
+
+    <h3>الأعمال والأنشطة ✍️</h3>
+    <ul>
+      <li>كتب مقالات فكرية وثقافية وفنية في الصحافة المحلية.</li>
+      <li>صمم شعارات وملصقات فنية وتجارية وسياسية.</li>
+      <li>دورات لتعليم الرسم والخطوط العربية.</li>
+      <li>رد برسوم كاريكاتورية على الرسام الدنماركي المسيء للنبي ﷺ.</li>
+    </ul>
+
+    <h3>المؤلفات والكتابات 📚</h3>
+    <ul>
+      <li>ملازم تعليم أبجديات بعض الخطوط العربية (أمشُق خط) – طبعتها مكتبة الإرشاد بصنعاء.</li>
+      <li>كتبت عن تجربته الفنية العديد من الدراسات والأبحاث الأكاديمية.</li>
+    </ul>
+  </div>
+</section>
+
+   
+
+  <!-- decorative band -->
+  <div class="band">
+    <div class="brush">
+      <h2>تشكيل وفرادى — هوية سريعة مستوحاة من أعماله</h2>
+    </div>
+  </div>
+
+  <!-- GALLERY PREVIEW -->
+  <section id="works" class="section">
+    <h2 style="margin-bottom:16px">أبرز الأعمال</h2>
+    <div class="grid" id="galleryGrid">
+      <!-- كرر عناصر البطاقات هذه للصور الفعلية -->
+      <div class="card"><img src="PLACEHOLDER-W1.jpg" alt="عمل 1"><div class="meta"><h3>عنوان العمل 1</h3><p>سنة • وصف مختصر</p></div></div>
+      <div class="card"><img src="PLACEHOLDER-W2.jpg" alt="عمل 2"><div class="meta"><h3>عنوان العمل 2</h3><p>سنة • وصف مختصر</p></div></div>
+      <div class="card"><img src="PLACEHOLDER-W3.jpg" alt="عمل 3"><div class="meta"><h3>عنوان العمل 3</h3><p>سنة • وصف مختصر</p></div></div>
+      <div class="card"><img src="PLACEHOLDER-W4.jpg" alt="عمل 4"><div class="meta"><h3>عنوان العمل 4</h3><p>سنة • وصف مختصر</p></div></div>
+      <div class="card"><img src="PLACEHOLDER-W5.jpg" alt="عمل 5"><div class="meta"><h3>عنوان العمل 5</h3><p>سنة • وصف مختصر</p></div></div>
+      <div class="card"><img src="PLACEHOLDER-W6.jpg" alt="عمل 6"><div class="meta"><h3>عنوان العمل 6</h3><p>سنة • وصف مختصر</p></div></div>
+    </div>
+
+    <div class="arrow-wrap">
+      <!-- السهم الذي ينقلك لصفحة بقية الأعمال. هنا نوجهه لصفحة معرض كاملة (يمكنك إنشاء gallery.html لاحقًا) -->
+      <a class="arrow" href="/gallery.html" title="شاهد بقية الأعمال">
+        <span>شاهد بقية الأعمال</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 5l6 7-6 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Interviews / Videos -->
+  <section id="interviews" class="section" style="margin-bottom:12px">
+    <h2 style="margin-bottom:16px">مقابلات مع الفنان</h2>
+    <div class="videos">
+      <div class="video-card">
+        <!-- ضع رابط الفيديو من يوتيوب مع استبدال VIDEO_ID -->
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="مقابلة 1" allowfullscreen=""></iframe>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="مقابلة 2" allowfullscreen=""></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="close-btn" id="closeLight">✕</button>
+    <img src="" alt="">
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <div>
+        <div style="font-weight:700;font-size:16px">تواصل مع الفنان</div>
+        <div style="color:rgba(255,255,255,0.85);margin-top:6px">البريد: artist@example.com • الهاتف: +970 123 456 789</div>
+      </div>
+      <div class="socials">
+        <a href="#">انستجرام</a>
+        <a href="#">فيسبوك</a>
+        <a href="#">يوتيوب</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar behaviour: become solid when scrolled
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', ()=>{
+      if(window.scrollY>40) navbar.classList.add('solid'); else navbar.classList.remove('solid');
+    });
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        // allow external links like /gallery.html
+        if(this.getAttribute('href').startsWith('#')){
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      });
+    });
+
+    // Lightbox for gallery images
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = lightbox.querySelector('img');
+    const closeBtn = document.getElementById('closeLight');
+
+    document.querySelectorAll('#galleryGrid .card img').forEach(img=>{
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', ()=>{
+        lbImg.src = img.src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    closeBtn.addEventListener('click', ()=>{ lightbox.classList.remove('open'); document.body.style.overflow = ''; });
+    lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox){ lightbox.classList.remove('open'); document.body.style.overflow = ''; } });
+
+    // Replace placeholder images automatically if you want — helpful during dev
+    // (Optional) Example: document.getElementById('brandImg').src = 'portrait.jpg';
+
+  </script>
+
+
